@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 
@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function (){
         Route::put('edit/{id}','update')->name('products.update');
         Route::delete('destroy/{id}','destroy')->name('products.destroy');
     });
-
+    
     Route::get('/profile',[App\Http\Controllers\AuthController::class,'profile'])->name('profile');
+    Route::post('/editprofile/{id}',[App\Http\Controllers\AuthController::class,'editprofile'])->name('editprofile');
 });

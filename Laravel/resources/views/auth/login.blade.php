@@ -23,6 +23,11 @@
           <div class="card o-hidden border-0 shadow-lg my-5 smaller-box">
             <div class="card-body p-0">
               <div class="p-5">
+              @if (session('success'))
+    <div class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                 </div>

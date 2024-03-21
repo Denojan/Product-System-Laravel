@@ -1,6 +1,6 @@
 @extends('layouts.app')
   
-@section('title', 'Home Product')
+
   
 @section('contents')
     <div class="d-flex align-items-center justify-content-between">
@@ -24,7 +24,7 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>+
+        <tbody>
             @if($product->count() > 0)
                 @foreach($product as $rs)
                     <tr>

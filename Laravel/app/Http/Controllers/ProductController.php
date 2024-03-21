@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -29,6 +31,17 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'price' => 'required',
+            'product_code' => 'required',
+            'description' => 'required'
+        ]);
+    
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         Product::create($request->all());
  
         return redirect()->route('products')->with('success', 'Product added successfully');
@@ -48,6 +61,8 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
+       
+
         $product = Product::findOrFail($id);
         return view('products.edit',compact('product'));
     }
@@ -58,7 +73,37 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         $product = Product::findOrFail($id);
-        $product->update($request->all());
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'price' => 'required',
+            'product_code' => 'required',
+            'description' => 'required'
+        ]);
+    
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        // Check if any fields have changed
+        $oldValues = [
+            'title' => $product->title,
+            'price' => $product->price,
+            'product_code' => $product->product_code,
+            'description' => $product->description,
+        ];
+        
+        $newValues = $request->only(['title', 'price', 'product_code', 'description']);
+        
+        // Check if any fields have changed
+        $changes = array_diff_assoc($newValues, $oldValues);
+  
+    
+        // If no changes, display message
+        if (empty($changes)) {
+            return redirect()->back()->with('error', 'No changes were made. Same value is added');
+        }
+        $product->update($newValues);
         return redirect()->route('products')->with('success','Product updated successfully');
     }
 

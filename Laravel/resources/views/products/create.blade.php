@@ -1,10 +1,18 @@
 @extends('layouts.app')
   
-@section('title', 'Create Product')
   
 @section('contents')
     <h1 class="mb-0">Add Product</h1>
     <hr />
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row mb-3">

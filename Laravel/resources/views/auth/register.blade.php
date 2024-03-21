@@ -25,7 +25,16 @@
        
          
             <div class="p-5">
-              <div class="text-center">
+            @if ($errors->any())
+    <div class="alert alert-danger" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+                 <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
               </div>
               <form action="{{ route('register.save') }}" method="POST" class="user">
@@ -48,6 +57,9 @@
                     @error('password')
                       <span class="invalid-feedback">{{ $message }}</span>
                     @enderror
+                    @if ($errors->has('password') && strpos($errors->first('password'), 'minimum') !== false)
+            <span class="text-danger">Password must be at least 4 characters long.</span>
+        @endif
                   </div>
                   <div class="col-sm-6">
                     <input name="password_confirmation" type="password" class="form-control form-control-user @error('password_confirmation')is-invalid @enderror" id="exampleRepeatPassword" placeholder="Repeat Password">

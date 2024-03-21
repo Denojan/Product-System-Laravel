@@ -1,10 +1,24 @@
 @extends('layouts.app')
   
-@section('title', 'Edit Product')
   
 @section('contents')
     <h1 class="mb-0">Edit Product</h1>
     <hr />
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
     <form action="{{ route('products.update', $product->id) }}" method="POST">
         @csrf
         @method('PUT')
