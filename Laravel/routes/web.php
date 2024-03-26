@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProductController;
-
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductTypeController;
 Route::get('/', function () {
     return view('auth/login');
 });
@@ -24,16 +24,30 @@ Route::middleware('auth')->group(function (){
         return view('dashboard');
     })->name('dashboard');
 
-    Route::controller(ProductController::class)->prefix('products')->group(function (){
-        Route::get('','index')->name('products');
-        Route::get('create','create')->name('products.create');
-        Route::post('store','store')->name('products.store');
-        Route::get('show/{id}','show')->name('products.show');
-        Route::get('edit/{id}','edit')->name('products.edit');
-        Route::put('edit/{id}','update')->name('products.update');
-        Route::delete('destroy/{id}','destroy')->name('products.destroy');
+    Route::controller(OrderController::class)->prefix('orders')->group(function (){
+        Route::get('','index')->name('orders');
+        Route::get('create','create')->name('orders.create');
+        Route::post('store/{id}','store')->name('orders.store');
+        Route::get('show/{id}','show')->name('orders.show');
+        Route::get('edit/{id}','edit')->name('orders.edit');
+        Route::put('edit/{id}','update')->name('orders.update');
+        Route::delete('destroy/{id}','destroy')->name('orders.destroy');
+        Route::post('accept/{id}','accept')->name('orders.accept');
     });
     
     Route::get('/profile',[App\Http\Controllers\AuthController::class,'profile'])->name('profile');
     Route::post('/editprofile/{id}',[App\Http\Controllers\AuthController::class,'editprofile'])->name('editprofile');
+
+
+    Route::controller(ProductTypeController::class)->prefix('productstype')->group(function (){
+        Route::get('','index')->name('productstype');
+        Route::get('createtype','create')->name('productstype.create');
+        Route::post('storetype/{id}','store')->name('productstype.store');
+        Route::get('showtype/{id}','show')->name('productstype.show');
+        Route::get('order/{id}','details')->name('productstype.details');
+        Route::get('edittype/{id}','edit')->name('productstype.edit');
+        Route::put('edittype/{id}','update')->name('productstype.update');
+        Route::delete('destroytype/{id}','destroy')->name('productstype.destroy');
+      
+    });
 });

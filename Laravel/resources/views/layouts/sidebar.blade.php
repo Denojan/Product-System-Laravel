@@ -13,15 +13,15 @@
   
   <!-- Nav Item - Dashboard -->
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('dashboard') }}">
+    <a class="nav-link" href="{{ route('productstype')}}">
       <i class="fas fa-fw fa-tachometer-alt"></i>
-      <span>Dashboard</span></a>
+      <span>Product Type</span></a>
   </li>
   
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('products') }}">
+    <a class="nav-link" href="{{ route('orders') }}">
       <i class="fas fa-fw fa-tachometer-alt"></i>
-      <span>Product</span></a>
+      <span>My Order</span></a>
   </li>
   
   <li class="nav-item">

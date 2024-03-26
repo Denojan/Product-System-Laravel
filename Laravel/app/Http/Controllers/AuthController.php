@@ -70,7 +70,7 @@ class AuthController extends Controller
   
         $request->session()->regenerate();
   
-        return redirect()->route('dashboard');
+        return redirect()->route('productstype');
     }
   
     public function logout(Request $request)

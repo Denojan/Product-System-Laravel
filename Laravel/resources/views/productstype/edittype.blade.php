@@ -2,7 +2,7 @@
   
   
 @section('contents')
-    <h1 class="mb-0">Edit Product</h1>
+    <h1 class="mb-0">Edit Product Type</h1>
     <hr />
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -19,13 +19,13 @@
     </div>
 @endif
 
-    <form action="{{ route('products.update', $product->id) }}" method="POST">
+    <form action="{{ route('productstype.update', $product->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="row">
             <div class="col mb-3">
-                <label class="form-label">Title</label>
-                <input type="text" name="title" class="form-control" placeholder="Title" value="{{ $product->title }}" >
+                <label class="form-label">Type</label>
+                <input type="text" name="type" class="form-control" placeholder="Type" value="{{ $product->type }}" >
             </div>
             <div class="col mb-3">
                 <label class="form-label">Price</label>
@@ -34,8 +34,8 @@
         </div>
         <div class="row">
             <div class="col mb-3">
-                <label class="form-label">Product Code</label>
-                <input type="text" name="product_code" class="form-control" placeholder="Product Code" value="{{ $product->product_code }}" >
+                <label class="form-label">Quantity</label>
+                <input type="text" name="quantity" class="form-control" placeholder="Quantity" value="{{ $product->quantity }}" >
             </div>
             <div class="col mb-3">
                 <label class="form-label">Description</label>

@@ -2,12 +2,12 @@
   
   
 @section('contents')
-    <h1 class="mb-0">Show Product</h1>
+    <h1 class="mb-0">Show Product Type</h1>
     <hr />
     <div class="row">
         <div class="col mb-3">
-            <label class="form-label">Title</label>
-            <input type="text" name="title" class="form-control" placeholder="Title" value="{{ $product->title }}" readonly>
+            <label class="form-label">Type</label>
+            <input type="text" name="type" class="form-control" placeholder="Type" value="{{ $product->type }}" readonly>
         </div>
         <div class="col mb-3">
             <label class="form-label">Price</label>
@@ -16,8 +16,8 @@
     </div>
     <div class="row">
         <div class="col mb-3">
-            <label class="form-label">product_code</label>
-            <input type="text" name="product_code" class="form-control" placeholder="Product Code" value="{{ $product->product_code }}" readonly>
+            <label class="form-label">Quantity</label>
+            <input type="text" name="quantity" class="form-control" placeholder="Quantity" value="{{ $product->quantity }}" readonly>
         </div>
         <div class="col mb-3">
             <label class="form-label">Description</label>

@@ -3,19 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Models\ProductType;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
-class ProductController extends Controller
+class ProductTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $product = Product::orderBy('created_at','DESC')->get();
-        return view('products.index',compact('product'));
+        $userId = Auth::id(); 
+     
+        $product = ProductType::where('user_id', $userId)->orderBy('created_at', 'DESC')->get();
+        return view('productstype.index',compact('product'));
     }
 
     /**
@@ -23,28 +25,34 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        return view('productstype.createtype');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, String $id)
     {
+        $userId = User::findOrFail($id);
         $validator = Validator::make($request->all(), [
-            'title' => 'required',
+            'type' => 'required',
             'price' => 'required',
-            'product_code' => 'required',
+            'quantity' => 'required',
             'description' => 'required'
         ]);
-    
+       
         // Check if validation fails
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        Product::create($request->all());
- 
-        return redirect()->route('products')->with('success', 'Product added successfully');
+       
+       
+       $product = ProductType::create($request->all());
+       $product->user_id = $userId->id;
+
+       // Save the changes
+       $product->save();
+        return redirect()->route('productstype')->with('success', 'Product type added successfully');
     }
 
     /**
@@ -52,8 +60,8 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::findOrFail($id);
-        return view('products.show',compact('product'));
+        $product = ProductType::findOrFail($id);
+        return view('productstype.showtype',compact('product'));
     }
 
     /**
@@ -63,8 +71,8 @@ class ProductController extends Controller
     {
        
 
-        $product = Product::findOrFail($id);
-        return view('products.edit',compact('product'));
+        $product = ProductType::findOrFail($id);
+        return view('productstype.edittype',compact('product'));
     }
 
     /**
@@ -72,11 +80,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $product = Product::findOrFail($id);
+        $product = ProductType::findOrFail($id);
         $validator = Validator::make($request->all(), [
-            'title' => 'required',
+            'type' => 'required',
             'price' => 'required',
-            'product_code' => 'required',
+            'quantity' => 'required',
             'description' => 'required'
         ]);
     
@@ -87,13 +95,13 @@ class ProductController extends Controller
     
         // Check if any fields have changed
         $oldValues = [
-            'title' => $product->title,
+            'type' => $product->type,
             'price' => $product->price,
-            'product_code' => $product->product_code,
+            'quantity' => $product->quantity,
             'description' => $product->description,
         ];
         
-        $newValues = $request->only(['title', 'price', 'product_code', 'description']);
+        $newValues = $request->only(['type', 'price', 'quantity', 'description']);
         
         // Check if any fields have changed
         $changes = array_diff_assoc($newValues, $oldValues);
@@ -104,7 +112,7 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'No changes were made. Same value is added');
         }
         $product->update($newValues);
-        return redirect()->route('products')->with('success','Product updated successfully');
+        return redirect()->route('productstype')->with('success','Product type updated successfully');
     }
 
     /**
@@ -112,8 +120,19 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        $product = Product::findOrFail($id);
+        $product = ProductType::findOrFail($id);
         $product->delete();
-        return redirect()->route('products')->with('success','Product deleted successfully');
+        return redirect()->route('productstype')->with('success','Product type deleted successfully');
     }
+
+    public function details($id)
+{
+  
+    $orders = Order::where('product_type_id', $id)->get();
+        foreach ($orders as $order) {
+            $order->productTypeName = ProductType::findOrFail($id)->type;
+        }
+    Log::info($orders);
+    return view('productstype.details', compact('orders'));
+}
 }

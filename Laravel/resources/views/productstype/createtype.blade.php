@@ -2,7 +2,7 @@
   
   
 @section('contents')
-    <h1 class="mb-0">Add Product</h1>
+    <h1 class="mb-0">Add Product Type</h1>
     <hr />
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -13,11 +13,11 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('productstype.store', auth()->user()->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row mb-3">
             <div class="col">
-                <input type="text" name="title" class="form-control" placeholder="Title">
+                <input type="text" name="type" class="form-control" placeholder="Type">
             </div>
             <div class="col">
                 <input type="text" name="price" class="form-control" placeholder="Price">
@@ -25,7 +25,7 @@
         </div>
         <div class="row mb-3">
             <div class="col">
-                <input type="text" name="product_code" class="form-control" placeholder="Product Code">
+                <input type="text" name="quantity" class="form-control" placeholder="Quantity">
             </div>
             <div class="col">
                 <textarea class="form-control" name="description" placeholder="Descriptoin"></textarea>
